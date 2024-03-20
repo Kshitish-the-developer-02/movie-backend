@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 // files
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/user.routes.js";
+import genreRoutes from "./routes/genre.routes.js";
 import uploadRoutes from "./routes/upload.routes.js";
 
 // configuration
@@ -22,9 +23,10 @@ app.use(cookieParser());
 
 // routes
 app.use("/api/users", userRoutes);
-app.use("api/upload", uploadRoutes);
+app.use("/api/genre", genreRoutes);
+app.use("/api/upload", uploadRoutes);
 
-const __dirname=path.resolve()
-app.use('/uploads',express.static(path.join(__dirname+"/uploads")))
+const __dirname = path.resolve();
+app.use("/uploads", express.static(path.join(__dirname + "/uploads")));
 
 app.listen(port, () => console.log(`server is running on port ${port}`));
