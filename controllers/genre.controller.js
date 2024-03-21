@@ -19,6 +19,7 @@ const createGenre = asyncHandler(async (req, res) => {
     return res.status(400).json(error);
   }
 });
+
 const updateGenre = asyncHandler(async (req, res) => {
   try {
     const { name } = req.body;
@@ -38,7 +39,40 @@ const updateGenre = asyncHandler(async (req, res) => {
     res.status(500).json({ error: "Internal servr error" });
   }
 });
-const removeGenre = asyncHandler(async (req, res) => {});
 
+const removeGenre = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    const removedGenre = await Genre.findByIdAndDelete(id);
 
-export { createGenre, updateGenre, removeGenre };
+    if (!removedGenre) {
+      res.status(404).json({ error: "Genre not found" });
+    }
+    res.json(removedGenre);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Servr Error" });
+  }
+});
+
+const listGenre = asyncHandler(async (req, res) => {
+  try {
+    const all = await Genre.find({});
+    res.json(all);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error.message);
+  }
+});
+
+const readGenre = asyncHandler(async (req, res) => {
+  try {
+    const genre = await Genre.findOne({ _id: req.params.id });
+    res.json(genre);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error.message);
+  }
+});
+
+export { createGenre, updateGenre, removeGenre, listGenre, readGenre };

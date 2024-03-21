@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/user.routes.js";
 import genreRoutes from "./routes/genre.routes.js";
+import movieRoute from './routes/movies.routes.js'
 import uploadRoutes from "./routes/upload.routes.js";
 
 // configuration
@@ -24,6 +25,7 @@ app.use(cookieParser());
 // routes
 app.use("/api/users", userRoutes);
 app.use("/api/genre", genreRoutes);
+app.use("/api/movies",movieRoute)
 app.use("/api/upload", uploadRoutes);
 
 const __dirname = path.resolve();
