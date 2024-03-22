@@ -100,6 +100,35 @@ const deleteMovie = async (req, res) => {
   }
 };
 
+const getNewMovies = async (req, res) => {
+  try {
+    const newMovies = await Movie.find().sort({ createdAt: -1 }).limit(10);
+    res.json(newMovies);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getTopMovies = async (req, res) => {
+  try {
+    const topRatedMovies = await Movie.find()
+      .sort({ numReviews: -1 })
+      .limit(10);
+    res.json(topRatedMovies);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getRandomMovies=async(req,res)=>{
+  try {
+     const randomMovies=await Movie.aggregate([{$sample:{size:10}}])
+     res.json(randomMovies)
+  } catch (error) {
+    res.status(500).json({error:error.message})
+  }
+}
+
 export {
   createMovie,
   getAllMovies,
@@ -107,4 +136,7 @@ export {
   updateMovie,
   movieReviews,
   deleteMovie,
+  getNewMovies,
+  getTopMovies,
+  getRandomMovies
 };
